@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Anora Ermonova Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a page-by-page bento book — one board per screen, turned with arrows, keys or swipe */
+:root {
+  --bg: #F3F0FA;
+  --surface: #FFFFFF;
+  --fg: #2B2140;
+  --muted: #625a78;
+  --line: #e4def2;
+  --ink: #2B2140;
+  --on-ink: #FFFFFF;
+  --coral: #F26D6D;
+  --mint: #9FE0C0;
+  --lilac: #C9B8F5;
+  --butter: #FFD978;
+  --sky: #A9D6F5;
+  --on-pastel: #2B2140;
+  --on-coral: #FFFFFF;
+  --shadow: 0 1px 2px rgba(60,40,110,.06), 0 8px 24px rgba(60,40,110,.08);
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Manrope", "Segoe UI", system-ui, sans-serif;
+  --r: 22px;
+  --gap: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #16121F; --surface: #221C30; --fg: #F1EDFA; --muted: #b3aac8; --line: #352c48;
+    --ink: #3a2f55; --on-ink: #FFFFFF;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #16121F; --surface: #221C30; --fg: #F1EDFA; --muted: #b3aac8; --line: #352c48;
+  --ink: #3a2f55; --on-ink: #FFFFFF;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.5; overflow: hidden; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; line-height: 1.08; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+
+.app { height: 100%; display: flex; flex-direction: column; padding-block: 18px 12px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.stage { position: relative; flex: 1; min-height: 0; max-width: 1320px; width: 100%; margin: 0 auto; }
+.page { position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; opacity: 0; visibility: hidden; transform: translateX(48px) scale(.985);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1), visibility 0s linear .45s; padding: 4px; }
+.page.on { opacity: 1; visibility: visible; transform: none; transition: opacity .45s ease, transform .45s cubic-bezier(.2,.7,.2,1), visibility 0s; }
+.page.left { transform: translateX(-48px) scale(.985); }
+
+.tile { border-radius: var(--r); padding: 22px; box-shadow: var(--shadow); min-width: 0; position: relative; overflow: hidden; }
+.surface { background: var(--surface); }
+.ink { background: var(--ink); color: var(--on-ink); }
+.coral { background: var(--coral); color: var(--on-coral); }
+.mint { background: var(--mint); color: var(--on-pastel); }
+.lilac { background: var(--lilac); color: var(--on-pastel); }
+.butter { background: var(--butter); color: var(--on-pastel); }
+.sky { background: var(--sky); color: var(--on-pastel); }
+svg.i { width: 24px; height: 24px; fill: currentColor; flex: none; }
+
+/* ---------- nav ---------- */
+.nav { max-width: 1320px; width: 100%; margin: 12px auto 0; display: flex; align-items: center; gap: 14px; }
+.nav button.arrow { width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--fg); color: var(--bg); cursor: pointer; display: grid; place-items: center; flex: none; box-shadow: var(--shadow); }
+.nav button.arrow:disabled { opacity: .3; cursor: default; }
+.nav button.arrow svg { width: 18px; height: 18px; fill: currentColor; }
+.dots { flex: 1; display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap; min-width: 0; }
+.dots button { width: 10px; height: 10px; padding: 0; border-radius: 999px; border: 0; background: var(--line); cursor: pointer; transition: width .3s, background .3s; }
+.dots button[aria-current="true"] { width: 28px; background: var(--coral); }
+.nav { position: relative; padding-top: 12px; }
+.bar { position: absolute; left: 0; right: 0; top: 0; height: 4px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--coral); border-radius: 999px; }
+.nav button.play { background: var(--coral); color: #fff; }
+.time { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 84px; text-align: center; }
+.count { font-family: var(--display); font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; min-width: 64px; text-align: center; }
+button:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+
+/* ---------- profile page ---------- */
+.board { height: 100%; min-height: 560px; display: grid; gap: var(--gap); grid-template-columns: 1.15fr 1.9fr 1fr; grid-template-rows: 1.3fr 1fr 1fr; grid-template-areas:
+  "photo name uni" "photo stats stats" "major about about"; }
+.photo { grid-area: photo; padding: 10px; background: var(--surface); }
+.photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: calc(var(--r) - 8px); display: block; }
+.name { grid-area: name; display: flex; flex-direction: column; justify-content: flex-end; }
+.name h1 { font-size: clamp(38px, 5.4vw, 66px); font-weight: 800; letter-spacing: -.02em; margin-top: 8px; }
+.name .sub { font-size: 21px; opacity: .92; }
+.uni { grid-area: uni; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+.uni svg { width: 40px; height: 40px; fill: var(--butter); }
+.uni b { font-size: 17px; display: block; line-height: 1.3; }
+.uni span { color: var(--butter); font-size: 14px; }
+.stats { grid-area: stats; display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--gap); }
+.stat { display: flex; flex-direction: column; justify-content: flex-end; }
+.stat .big { font-family: var(--display); font-size: 50px; font-weight: 800; line-height: 1; }
+.stat .lbl { font-size: 14px; margin-top: 8px; font-weight: 500; }
+.major { grid-area: major; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+.major h2 { font-size: 25px; }
+.about { grid-area: about; background: var(--surface); }
+.about .eyebrow { color: var(--coral); }
+.about ul { list-style: none; padding: 0; margin: 14px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; }
+.about li { display: flex; gap: 12px; align-items: center; font-size: 15px; font-weight: 500; }
+.dot { width: 40px; height: 40px; border-radius: 50%; background: var(--bg); display: grid; place-items: center; flex: none; color: var(--coral); }
+.dot svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* ---------- event page ---------- */
+.evp { height: 100%; min-height: 540px; display: grid; gap: var(--gap); grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); }
+.media { display: grid; gap: var(--gap); grid-template-columns: 1fr 1fr; min-height: 0; }
+.media.one { grid-template-columns: 1fr; }
+.frame { background: var(--surface); border-radius: var(--r); padding: 10px; box-shadow: var(--shadow); min-height: 0; min-width: 0; }
+.frame > * { width: 100%; height: 100%; border-radius: calc(var(--r) - 8px); overflow: hidden; display: block; }
+.frame button { padding: 0; border: 0; cursor: zoom-in; background: var(--line); }
+.frame img, .frame video { width: 100%; height: 100%; object-fit: cover; display: block; background: var(--line); }
+.frame.contain img { object-fit: contain; background: var(--surface); }
+.side { display: grid; gap: var(--gap); grid-template-rows: auto auto 1fr auto; min-height: 0; }
+.toprow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.num { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 130px; }
+.num .n { font-family: var(--display); font-size: 44px; font-weight: 800; line-height: 1; }
+.num .t { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.date { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; min-height: 130px; }
+.date b { font-family: var(--display); font-size: 19px; line-height: 1.15; }
+.ttl h3 { font-size: clamp(22px, 2.2vw, 30px); font-weight: 700; }
+.ttl .award { display: inline-flex; gap: 6px; align-items: center; margin-top: 12px; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.5); color: var(--on-pastel); }
+.coral .award { background: rgba(255,255,255,.22); color: var(--on-coral); }
+.ttl .award svg { width: 14px; height: 14px; fill: currentColor; }
+.desc { background: var(--surface); display: flex; align-items: center; }
+.desc p { margin: 0; font-size: 16px; line-height: 1.6; }
+.hint { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; padding: 0 6px; }
+
+/* ---------- awards page ---------- */
+.awp { height: 100%; min-height: 520px; display: grid; gap: var(--gap); grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: 1fr 1fr; }
+.awp .head { grid-row: span 2; display: flex; flex-direction: column; justify-content: space-between; }
+.awp .head h2 { font-size: clamp(40px, 5vw, 64px); font-weight: 800; }
+.awp .head p { color: var(--lilac); margin: 10px 0 0; }
+.aw { display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+.aw svg { width: 32px; height: 32px; fill: currentColor; }
+.aw b { font-family: var(--display); font-size: 24px; line-height: 1.15; display: block; }
+.aw small { font-size: 14px; font-weight: 500; display: block; margin-top: 6px; }
+.awp .grid4 { grid-column: span 2; grid-row: span 2; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 1fr); gap: var(--gap); }
+.awp .grid4 .aw:first-child { grid-column: span 2; }
+
+/* ---------- final page ---------- */
+.endp { height: 100%; min-height: 520px; display: grid; gap: var(--gap); grid-template-columns: 2fr 1fr; grid-template-rows: 1.6fr 1fr; }
+.endp .thanks { display: flex; align-items: flex-end; }
+.endp .thanks h2 { font-size: clamp(42px, 6vw, 84px); font-weight: 800; letter-spacing: -.02em; }
+.endp .photo { grid-area: auto; grid-row: span 2; }
+.endp .row { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: var(--gap); }
+.endp .row .tile { display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; }
+.endp .row b { font-size: 18px; }
+
+/* ---------- lightbox ---------- */
+.lb { position: fixed; inset: 0; background: rgba(16,12,26,.92); display: grid; place-items: center; z-index: 50; padding: max(24px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.lb img { max-width: min(1200px, 100%); max-height: 88vh; border-radius: 14px; object-fit: contain; }
+.lb button { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: calc(14px + env(safe-area-inset-right, 0px)); width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: #2B2140; font-size: 22px; cursor: pointer; }
+
+/* ---------- smaller screens: pages scroll inside themselves ---------- */
+@media (max-width: 900px) {
+  .board { height: auto; min-height: 0; grid-template-columns: 1fr 1fr; grid-template-rows: none; grid-template-areas: "photo name" "photo uni" "stats stats" "major major" "about about"; }
+  .photo img { aspect-ratio: 3 / 4; height: auto; }
+  .stat { min-height: 130px; }
+  .evp { height: auto; min-height: 0; grid-template-columns: minmax(0, 1fr); }
+  .frame { aspect-ratio: 4 / 4.6; }
+  .media.one .frame { aspect-ratio: 3 / 4; }
+  .side { grid-template-rows: none; }
+  .awp, .endp { height: auto; min-height: 0; grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .awp .head, .awp .grid4 { grid-row: auto; grid-column: auto; }
+  .awp .grid4 { grid-template-rows: none; }
+  .aw { min-height: 140px; }
+  .endp .photo { grid-row: auto; }
+  .endp .photo img { aspect-ratio: 1; height: auto; }
+  .endp .thanks { min-height: 220px; }
+  .endp .row { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .app { padding-block: 10px 8px; }
+  .board { grid-template-columns: minmax(0, 1fr); grid-template-areas: "photo" "name" "uni" "stats" "major" "about"; }
+  .photo img { aspect-ratio: 4 / 4.4; }
+  .stats { gap: 10px; }
+  .stat { padding: 16px; min-height: 110px; }
+  .stat .big { font-size: 32px; }
+  .stat .lbl { font-size: 12px; }
+  .about ul { grid-template-columns: 1fr; }
+  .media { gap: 10px; }
+  .frame { padding: 6px; }
+  .num, .date { min-height: 110px; }
+  .num .n { font-size: 34px; }
+  .awp .grid4 { grid-template-columns: minmax(0, 1fr); }
+  .awp .grid4 .aw:first-child { grid-column: auto; }
+  .nav { gap: 10px; }
+  .nav button.arrow { width: 44px; height: 44px; }
+  .dots { visibility: hidden; }
+  .time { min-width: 0; }
+  .count { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .page, .page.on { transition: none; transform: none; } .dots button { transition: none; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="cap" viewBox="0 0 640 512"><path d="M622 135 337 47a64 64 0 0 0-34 0L18 135a24 24 0 0 0 0 46l50 15v62c-14 8-24 23-24 41 0 16 8 30 21 39L41 448a16 16 0 0 0 15 20h56a16 16 0 0 0 15-20l-24-110c13-9 21-23 21-39 0-17-9-32-22-40v-52l220 68c21 6 38 3 34 0l285-88a24 24 0 0 0 0-46ZM352 307a96 96 0 0 1-64 0l-145-45-15 140c0 35 86 64 192 64s192-29 192-64l-15-140Z"/></symbol>
+  <symbol id="bank" viewBox="0 0 512 512"><path d="M496 128v16a8 8 0 0 1-8 8h-24v12c0 7-6 12-13 12H61c-7 0-13-5-13-12v-12H24a8 8 0 0 1-8-8v-16a8 8 0 0 1 5-7l232-88a8 8 0 0 1 6 0l232 88a8 8 0 0 1 5 7Zm-24 304H40a24 24 0 0 0-24 24v16a8 8 0 0 0 8 8h464a8 8 0 0 0 8-8v-16a24 24 0 0 0-24-24ZM96 192v192H60c-7 0-12 5-12 12v20h416v-20c0-7-5-12-12-12h-36V192h-64v192h-64V192h-64v192h-64V192Z"/></symbol>
+  <symbol id="cal" viewBox="0 0 448 512"><path d="M0 464a48 48 0 0 0 48 48h352a48 48 0 0 0 48-48V192H0Zm320-196a12 12 0 0 1 12-12h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12h-40a12 12 0 0 1-12-12Zm0 128a12 12 0 0 1 12-12h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12h-40a12 12 0 0 1-12-12ZM192 268a12 12 0 0 1 12-12h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12h-40a12 12 0 0 1-12-12Zm0 128a12 12 0 0 1 12-12h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12h-40a12 12 0 0 1-12-12ZM64 268a12 12 0 0 1 12-12h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H76a12 12 0 0 1-12-12Zm0 128a12 12 0 0 1 12-12h40a12 12 0 0 1 12 12v40a12 12 0 0 1-12 12H76a12 12 0 0 1-12-12ZM400 64h-48V16a16 16 0 0 0-16-16h-32a16 16 0 0 0-16 16v48H160V16a16 16 0 0 0-16-16h-32a16 16 0 0 0-16 16v48H48A48 48 0 0 0 0 112v48h448v-48a48 48 0 0 0-48-48Z"/></symbol>
+  <symbol id="star" viewBox="0 0 576 512"><path d="M259 18 194 150 48 171c-26 4-37 36-18 55l106 103-25 145c-5 26 23 46 46 34l131-69 131 69c23 12 51-8 46-34l-25-145 106-103c19-19 8-51-18-55l-146-21-65-132c-12-24-46-24-58 0Z"/></symbol>
+  <symbol id="trophy" viewBox="0 0 576 512"><path d="M552 64H448V24c0-13-11-24-24-24H152c-13 0-24 11-24 24v40H24C11 64 0 75 0 88v56c0 36 23 72 62 100 31 23 69 37 109 42 31 51 69 74 69 74v72h-48c-35 0-64 21-64 56v12c0 7 5 12 12 12h296c7 0 12-5 12-12v-12c0-35-29-56-64-56h-48v-72s38-23 69-74c40-5 78-19 109-42 39-28 62-64 62-100V88c0-13-11-24-24-24ZM99 192c-24-17-35-37-35-48v-16h64c1 33 6 61 14 86-16-6-31-13-43-22Zm413-48c0 16-18 36-35 48-12 9-27 16-43 22 8-25 13-53 14-86h64Z"/></symbol>
+  <symbol id="users" viewBox="0 0 640 512"><path d="M96 224a64 64 0 1 0 0-128 64 64 0 0 0 0 128Zm448 0a64 64 0 1 0 0-128 64 64 0 0 0 0 128Zm32 32h-64c-18 0-34 7-45 19 40 22 69 62 75 109h66c18 0 32-14 32-32v-32c0-35-29-64-64-64Zm-256 0a112 112 0 1 0 0-224 112 112 0 0 0 0 224Zm77 32h-8a155 155 0 0 1-138 0h-8C109 288 64 333 64 389v29c0 26 22 48 48 48h288c26 0 48-22 48-48v-29c0-56-45-101-101-101Zm-224-13c-11-12-27-19-45-19H64c-35 0-64 29-64 64v32c0 18 14 32 32 32h66c6-47 35-87 75-109Z"/></symbol>
+  <symbol id="bag" viewBox="0 0 448 512"><path d="M352 160v-32a128 128 0 0 0-256 0v32H0v272a80 80 0 0 0 80 80h288a80 80 0 0 0 80-80V160Zm-192-32a64 64 0 0 1 128 0v32H160Zm160 120a24 24 0 1 1 0-48 24 24 0 0 1 0 48Zm-192 0a24 24 0 1 1 0-48 24 24 0 0 1 0 48Z"/></symbol>
+  <symbol id="bulb" viewBox="0 0 352 512"><path d="M96 464c0 6 2 12 5 18l17 26c6 8 16 14 26 14h63c11 0 21-6 27-14l17-26c3-6 5-12 5-18v-48H96Zm80-464C74 0 0 83 0 176c0 44 16 85 44 116 17 19 43 59 53 92h158c10-33 36-73 53-92 28-31 44-72 44-116C352 79 273 0 176 0Z"/></symbol>
+  <symbol id="medal" viewBox="0 0 512 512"><path d="M224 0h64l64 128H160Zm-96 0H32l84 140c18-18 40-31 64-39ZM480 0h-96l-52 101c24 8 46 21 64 39ZM256 160a176 176 0 1 0 0 352 176 176 0 0 0 0-352Zm93 157-38 37 9 52c1 9-9 16-17 12l-47-25-47 25c-8 4-18-3-17-12l9-52-38-37c-7-6-3-18 6-19l53-8 23-47c4-8 16-8 20 0l23 47 53 8c9 1 13 13 6 19Z"/></symbol>
+  <symbol id="cert" viewBox="0 0 512 512"><path d="m458 256 46-45c14-13 7-36-11-40l-62-16 17-62c5-18-12-35-30-30l-62 17-16-62c-4-18-27-25-40-11l-45 46-45-46c-13-14-36-8-40 11l-16 62-62-17c-18-5-35 12-30 30l17 62-62 16c-18 4-25 27-11 40l46 45-46 45c-14 13-7 36 11 40l62 16-17 62c-5 18 12 35 30 30l62-17 16 62c4 19 27 25 40 11l45-46 45 46c13 14 36 7 40-11l16-62 62 17c18 5 35-12 30-30l-17-62 62-16c18-4 25-27 11-40Z"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 320 512"><path d="M34 233 228 39c9-9 25-9 34 0l23 23c9 9 9 24 0 34L131 256l154 160c9 10 9 25 0 34l-23 23c-9 9-25 9-34 0L34 279c-9-13-9-33 0-46Z"/></symbol>
+  <symbol id="i-next" viewBox="0 0 320 512"><path d="M286 279 92 473c-9 9-25 9-34 0l-23-23c-9-9-9-24 0-34l154-160L35 96c-9-10-9-25 0-34l23-23c9-9 25-9 34 0l194 194c9 13 9 33 0 46Z"/></symbol>
+  <symbol id="pause" viewBox="0 0 448 512"><path d="M144 479H48c-26 0-48-22-48-48V79c0-26 22-48 48-48h96c26 0 48 22 48 48v352c0 26-22 48-48 48Zm304-48V79c0-26-22-48-48-48h-96c-26 0-48 22-48 48v352c0 26 22 48 48 48h96c26 0 48-22 48-48Z"/></symbol>
+  <symbol id="playi" viewBox="0 0 448 512"><path d="M424 214 72 6C43-11 0 6 0 47v417c0 37 40 60 72 41l352-208c31-18 31-64 0-83Z"/></symbol>
+  <symbol id="zoom"viewBox="0 0 512 512"><path d="M505 443 405 343c-4-4-10-7-17-7h-16a207 207 0 1 0-36 36v16c0 7 3 13 7 17l100 100c9 9 25 9 34 0l28-28c9-10 9-25 0-34ZM208 336a128 128 0 1 1 0-256 128 128 0 0 1 0 256Z"/></symbol>
+</svg>
+
+<div class="app">
+  <main class="stage" id="stage" aria-live="polite">
+
+    <section class="page on" aria-label="Profil">
+      <div class="board">
+        <div class="tile photo"><img src="img/s1_0.jpg" alt="Ermonova Anora Dilshod qizi"></div>
+        <div class="tile coral name">
+          <span class="eyebrow">Portfolio · 2025–2026</span>
+          <h1>Ermonova Anora</h1>
+          <span class="sub">Dilshod qizi</span>
+        </div>
+        <div class="tile ink uni">
+          <svg><use href="#cap"/></svg>
+          <div><b>Toshkent Amaliy fanlar universiteti</b><span>Iqtisodiyot fakulteti</span></div>
+        </div>
+        <div class="stats">
+          <div class="tile butter stat"><span class="big">5+</span><span class="lbl">e’lon qilingan ilmiy maqola</span></div>
+          <div class="tile mint stat"><span class="big">B1</span><span class="lbl">CEFR ingliz tili sertifikati</span></div>
+          <div class="tile lilac stat"><span class="big">2026</span><span class="lbl">“Yil talabasi” medali va sertifikati</span></div>
+        </div>
+        <div class="tile sky major">
+          <svg class="i" style="width:34px;height:34px"><use href="#bank"/></svg>
+          <div><h2>“Bank ishi” yo‘nalishi</h2><div>3-bosqich talabasi</div></div>
+        </div>
+        <div class="tile about">
+          <span class="eyebrow">O‘zim haqimda</span>
+          <ul>
+            <li><span class="dot"><svg><use href="#trophy"/></svg></span>Statistika fan olimpiadasi g‘olibi</li>
+            <li><span class="dot"><svg><use href="#users"/></svg></span>1-bosqich talabalari uchun peer-mentor, universitet ko‘ngillilari (volontyorlar) koordinatori</li>
+            <li><span class="dot"><svg><use href="#bag"/></svg></span>“Korean Glow” e-commerce loyihasi muassisi</li>
+            <li><span class="dot"><svg><use href="#bulb"/></svg></span>“Zakovat” intellektual o‘yini bilimdoni</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- event pages are inserted here by the script, then the two closing pages follow -->
+
+    <section class="page" aria-label="Yutuqlar" data-tail>
+      <div class="awp">
+        <div class="tile ink head">
+          <svg class="i" style="width:44px;height:44px;fill:var(--butter)"><use href="#trophy"/></svg>
+          <div><h2>Yutuqlar</h2><p>Taqdirlash hujjatlari va sertifikatlar</p></div>
+        </div>
+        <div class="grid4">
+          <div class="tile butter aw"><svg><use href="#medal"/></svg><div><b>“Yil talabasi” tanlovi</b><small>Diplom va maxsus ko‘krak nishoni (medal) · 2026-yil 31-mart</small></div></div>
+          <div class="tile mint aw"><svg><use href="#trophy"/></svg><div><b>Faxrli 2-o‘rin</b><small>“Milliy qadriyatlar va pazandachilik” · Diplom</small></div></div>
+          <div class="tile sky aw"><svg><use href="#cert"/></svg><div><b>CEFR sertifikati</b><small>Chet tilini bilish darajasi · 2026-yil 18-iyun</small></div></div>
+          <div class="tile lilac aw"><svg><use href="#star"/></svg><div><b>Tashakkurnoma</b><small>Bobur tavalludining 543 yilligi</small></div></div>
+          <div class="tile coral aw"><svg><use href="#star"/></svg><div><b>Tashakkurnoma</b><small>“Sumalak sayli” tadbiri</small></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" aria-label="Yakun" data-tail>
+      <div class="endp">
+        <div class="tile coral thanks"><h2>E’tiboringiz uchun rahmat!</h2></div>
+        <div class="tile photo"><img src="img/s1_0.jpg" alt="Ermonova Anora Dilshod qizi"></div>
+        <div class="row">
+          <div class="tile ink"><b>Ermonova Anora Dilshod qizi</b><span style="color:var(--lilac)">“Bank ishi” yo‘nalishi, 3-bosqich</span></div>
+          <div class="tile mint"><b>TAFU</b><span>Iqtisodiyot fakulteti</span></div>
+          <div class="tile butter"><b>14 ta tadbir</b><span>5+ maqola · B1 CEFR</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="nav" aria-label="Sahifalar">
+    <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+    <button type="button" class="arrow" id="prev" aria-label="Oldingi sahifa"><svg><use href="#i-prev"/></svg></button>
+    <button type="button" class="arrow play" id="play" aria-label="To‘xtatish"><svg id="play-ic"><use href="#pause"/></svg></button>
+    <span class="time" id="time">0:00 / 5:00</span>
+    <div class="dots" id="dots"></div>
+    <span class="count" id="count">01 / 17</span>
+    <button type="button" class="arrow" id="next" aria-label="Keyingi sahifa"><svg><use href="#i-next"/></svg></button>
+  </nav>
+</div>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Rasm">
+  <img id="lb-img" alt="">
+  <button type="button" id="lb-close" aria-label="Yopish">✕</button>
+</div>
+
+<script>
+const A = {"img/s10_0.jpg": "img/s10_0.jpg", "img/s10_1.jpg": "img/s10_1.jpg", "img/s11_0.jpg": "img/s11_0.jpg", "img/s11_1.jpg": "img/s11_1.jpg", "img/s12_0.jpg": "img/s12_0.jpg", "img/s12_1.jpg": "img/s12_1.jpg", "img/s13_0.jpg": "img/s13_0.jpg", "img/s13_1r.jpg": "img/s13_1r.jpg", "img/s14_0.jpg": "img/s14_0.jpg", "img/s14_1.jpg": "img/s14_1.jpg", "img/s15_0.jpg": "img/s15_0.jpg", "img/s1_0.jpg": "img/s1_0.jpg", "img/s2_0.jpg": "img/s2_0.jpg", "img/s2_2.jpg": "img/s2_2.jpg", "img/s3_0.jpg": "img/s3_0.jpg", "img/s3_1.jpg": "img/s3_1.jpg", "img/s4_0.jpg": "img/s4_0.jpg", "img/s4_1.jpg": "img/s4_1.jpg", "img/s5_0.jpg": "img/s5_0.jpg", "img/s6_0.jpg": "img/s6_0.jpg", "img/s6_1.jpg": "img/s6_1.jpg", "img/s7_0.jpg": "img/s7_0.jpg", "img/s7_1.jpg": "img/s7_1.jpg", "img/s8_0.jpg": "img/s8_0.jpg", "img/s9_0.jpg": "img/s9_0.jpg", "img/s9_1.jpg": "img/s9_1.jpg", "img/v5.jpg": "img/v5.jpg", "img/v5.mp4": "img/v5.mp4", "img/v8.jpg": "img/v8.jpg", "img/v8.mp4": "img/v8.mp4"};
+const E = [
+  { n:1, tag:"Madaniyat", c:"coral", c2:"butter", title:"Bobur tavalludining 543 yilligi", award:"Tashakkurnoma", date:"2026-yil 14-fevral",
+    desc:"Zahiriddin Muhammad Bobur tavalludining 543 yilligiga bag‘ishlangan bayram tadbirida va sahna ko‘rinishlarida faol ishtirok etdim.", m:["s2_0","s2_2!"] },
+  { n:2, tag:"Navro‘z", c:"mint", c2:"lilac", title:"“Sumalak sayli”", award:"Tashakkurnoma", date:"2026-yil 26-mart",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti rahbariyati, professor-o‘qituvchilari va talabalari ishtirokida “Navro‘z ayyomi” munosabati bilan o‘tkazilgan “Sumalak sayli” ma’naviy-ma’rifiy tadbirida faol ishtirok etdim.", m:["s3_0","s3_1!"] },
+  { n:3, tag:"Sport", c:"sky", c2:"butter", title:"“Talaba yugur” marafoni", date:"2026-yil 29-mart",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti talaba-yoshlari ishtirokida “Talaba yugur” ommaviy sport va salomatlik aksiyasi doirasida o‘tkazilgan marafonda ishtirok etdim.", m:["s4_0","s4_1"] },
+  { n:4, tag:"Yutuq", c:"butter", c2:"coral", title:"“Yil talabasi” tanlovi", award:"Diplom va ko‘krak nishoni", date:"2026-yil 31-mart",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti talabalarining “Yil talabasi” xalqaro va respublika miqyosidagi tanlovlarida munosib ishtirok etib, diplom hamda maxsus ko‘krak nishoni (medal) bilan taqdirlanish marosimi.", m:["s5_0",{v:"v5"}] },
+  { n:5, tag:"Ma’naviyat", c:"lilac", c2:"mint", title:"Alisher Navoiy tavalludining 585 yilligi", date:"2026-yil 9-fevral",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti professor-o‘qituvchilari va talaba-yoshlarining “Alisher Navoiy tavalludining 585 yilligi” munosabati bilan Alisher Navoiy haykali poyiga gul qo‘yish hamda ehtirom ko‘rsatish jarayonida faol qatnashdim.", m:["s6_0","s6_1"] },
+  { n:6, tag:"Bayram", c:"coral", c2:"sky", title:"8-Mart — Xalqaro xotin-qizlar kuni", date:"8-Mart bayrami",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakultetida “8-Mart – Xalqaro xotin-qizlar kuni” munosabati bilan professor-o‘qituvchi va talaba-qizlarga ehtirom ko‘rsatish hamda bayramona sovg‘alar topshirish jarayonida namunali ishtirok etdim.", m:["s7_0","s7_1"] },
+  { n:7, tag:"Volontyorlik", c:"mint", c2:"butter", title:"1-kurs talabalariga volontyor", date:"IQ-26-01 guruhi",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakultetida 1-kurs IQ-26-01 guruhi talabalariga volontyor bo‘lib biriktirildik. Ularni kutib olish, ko‘nikish jarayonlarida ko‘maklashish bo‘yicha volontyorlik faoliyatini olib bordik.", m:["s8_0",{v:"v8"}] },
+  { n:8, tag:"Bayram", c:"sky", c2:"coral", title:"O‘qituvchi va murabbiylar kuni", date:"2025-yil 31-sentabr",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti dekanining “O‘qituvchi va murabbiylar kuni”ga bag‘ishlangan bayram tadbirida professor-o‘qituvchilar hamda universitetimiz rektoridan mazmunli tilaklar.", m:["s9_0","s9_1"] },
+  { n:9, tag:"Kitobxonlik", c:"lilac", c2:"butter", title:"“Yangi kitob” taqdimoti", date:"2026-yil 14-may",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti vakillarining “Yangi kitob” taqdimot marosimida faol qatnashdim.", m:["s10_0","s10_1"] },
+  { n:10, tag:"Ekskursiya", c:"butter", c2:"mint", title:"Islom sivilizatsiyasi markazi", date:"2026-yil 18-may",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti vakillarining Islom sivilizatsiyasi markazi muzey eksponatlari va nodir manbalari bilan tanishuv hamda ekskursiya jarayonidan lavhalar.", m:["s11_0","s11_1"] },
+  { n:11, tag:"Forum", c:"coral", c2:"lilac", title:"Sharqshunos tahlilchilarning I Respublika forumi", date:"2026-yil 25-aprel",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti vakillari hamda talaba-yoshlarining “Sharqshunos tahlilchilarning I Respublika forumi” doirasidagi xalqaro-amaliy uchrashuv hamda sho‘ba yig‘ilishlaridagi ishtirokim.", m:["s12_0","s12_1"] },
+  { n:12, tag:"Yutuq", c:"mint", c2:"coral", title:"“Milliy qadriyatlar va pazandachilik”", award:"Faxrli 2-o‘rin · Diplom", date:"2026-yil 31-mart",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti talaba-qizlari o‘rtasida o‘tkazilgan “Milliy qadriyatlar va pazandachilik” tadbirida guruhimiz bilan faol va hamjihatlikda ishtirok etib, faxrli 2-o‘rinni egalladik.", m:["s13_0","s13_1r!"] },
+  { n:13, tag:"Adabiyot", c:"lilac", c2:"sky", title:"“Bahor keldi, seni so‘roqlab”", date:"2026-yil 1-mart",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakultetida vafo va sadoqat kuychisi Zulfiyaxonim tavalludiga bag‘ishlab shoiraning qizi Hulkar Olimjonova ishtirokida o‘tkazilgan “Bahor keldi, seni so‘roqlab” nomli ma’rifiy uchrashuv va davra suhbati.", m:["s14_0","s14_1"] },
+  { n:14, tag:"Sertifikat", c:"sky", c2:"butter", title:"Chet tilini bilish darajasi to‘g‘risida milliy sertifikat", award:"CEFR", date:"2026-yil 18-iyun",
+    desc:"Toshkent Amaliy fanlar universiteti Iqtisodiyot fakulteti talabasi Ermonova Anora Dilshod qizi o‘qishim davomida xorijiy tillarni chuqur o‘rganib, “Chet tilini bilish darajasi to‘g‘risida”gi milliy sertifikatni (CEFR) muvaffaqiyatli qo‘lga kiritdim.", m:["s15_0!"] },
+];
+
+const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const stage = document.getElementById("stage");
+const firstTail = stage.querySelector("[data-tail]");
+
+for (const e of E) {
+  const media = e.m.map((x) => {
+    if (typeof x !== "string") return `<div class="frame"><video data-k="${x.v}" src="${A["img/"+x.v+".mp4"]}" poster="${A["img/"+x.v+".jpg"]}" controls playsinline muted preload="auto"></video></div>`;
+    const doc = x.endsWith("!"), f = x.replace("!", "");   // "!" marks a document photo: show it whole
+    return `<div class="frame${doc ? " contain" : ""}"><button type="button" data-src="${A["img/"+f+".jpg"]}" aria-label="Rasmni kattalashtirish"><img src="${A["img/"+f+".jpg"]}" alt="${esc(e.title)}" loading="lazy"></button></div>`;
+  }).join("");
+  const sec = document.createElement("section");
+  sec.className = "page";
+  sec.setAttribute("aria-label", e.title.replace(/[“”]/g, ""));
+  sec.innerHTML = `<div class="evp">
+    <div class="media${e.m.length === 1 ? " one" : ""}">${media}</div>
+    <div class="side">
+      <div class="toprow">
+        <div class="tile ink num"><span class="n">${String(e.n).padStart(2, "0")}</span><span class="t" style="color:var(--${e.c === "coral" ? "butter" : e.c})">${esc(e.tag)}</span></div>
+        <div class="tile ${e.c2} date"><svg class="i"><use href="#cal"/></svg><b>${esc(e.date)}</b></div>
+      </div>
+      <div class="tile ${e.c} ttl"><h3>${esc(e.title)}</h3>${e.award ? `<span class="award"><svg><use href="#star"/></svg>${esc(e.award)}</span>` : ""}</div>
+      <div class="tile desc"><p>${esc(e.desc)}</p></div>
+      <div class="hint"><svg class="i" style="width:12px;height:12px"><use href="#zoom"/></svg>Rasmni bosib kattalashtiring</div>
+    </div>
+  </div>`;
+  stage.insertBefore(sec, firstTail);
+}
+
+const pages = [...stage.querySelectorAll(".page")];
+const dots = document.getElementById("dots"), count = document.getElementById("count");
+const prevB = document.getElementById("prev"), nextB = document.getElementById("next");
+dots.innerHTML = pages.map((p, i) => `<button type="button" aria-label="${i + 1}-sahifa: ${esc(p.getAttribute("aria-label"))}"></button>`).join("");
+const dotBtns = [...dots.children];
+const pad = (n) => String(n).padStart(2, "0");
+let cur = 0, elapsed = 0;
+
+function go(i) {
+  if (i < 0 || i >= pages.length || i === cur) return;
+  const fwd = i > cur;
+  pages[cur].querySelectorAll("video").forEach((v) => v.pause());
+  pages[cur].classList.remove("on");
+  pages[cur].classList.toggle("left", fwd);
+  pages.forEach((p, k) => { if (k !== cur && k !== i) p.classList.toggle("left", k < i); });
+  pages[i].classList.remove("left");
+  pages[i].scrollTop = 0;
+  pages[i].classList.add("on");
+  cur = i;
+  elapsed = 0;
+  render();
+  startVideo(pages[i]);
+  try { history.replaceState(null, "", "#p" + (i + 1)); } catch (_) {}
+}
+function render() {
+  pages.forEach((p, k) => p.inert = k !== cur);
+  dotBtns.forEach((d, k) => d.setAttribute("aria-current", k === cur ? "true" : "false"));
+  count.textContent = pad(cur + 1) + " / " + pad(pages.length);
+  prevB.disabled = cur === 0;
+  nextB.disabled = cur === pages.length - 1;
+}
+prevB.addEventListener("click", () => go(cur - 1));
+nextB.addEventListener("click", () => go(cur + 1));
+dotBtns.forEach((d, k) => d.addEventListener("click", () => go(k)));
+
+const lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img"), lbClose = document.getElementById("lb-close");
+let lastBtn = null;
+stage.addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-src]"); if (!b) return;
+  lastBtn = b; lbImg.src = b.dataset.src; lbImg.alt = b.querySelector("img").alt; lb.hidden = false; lbClose.focus();
+});
+const closeLb = () => { lb.hidden = true; lbImg.removeAttribute("src"); if (lastBtn) lastBtn.focus(); };
+lbClose.addEventListener("click", closeLb);
+lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
+
+document.addEventListener("keydown", (e) => {
+  if (!lb.hidden) { if (e.key === "Escape") closeLb(); return; }
+  if (e.target.closest && e.target.closest("video")) return;
+  if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); go(cur + 1); }
+  else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(cur - 1); }
+  else if (e.key === "Home") go(0);
+  else if (e.key === "End") go(pages.length - 1);
+});
+
+let sx = null, sy = null;
+stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+stage.addEventListener("touchend", (e) => {
+  if (sx === null) return;
+  const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+  if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) go(cur + (dx < 0 ? 1 : -1));
+  sx = sy = null;
+}, { passive: true });
+
+const m = /^#p(\d+)$/.exec(location.hash);
+const start = m ? Math.min(Math.max(+m[1] - 1, 0), pages.length - 1) : 0;
+if (start) { pages[0].classList.remove("on"); pages[start].classList.add("on"); pages.forEach((p, k) => p.classList.toggle("left", k < start)); cur = start; }
+render();
+
+/* ---------- autoplay: whole book runs 5:00; the long video page gets the time its clip needs ---------- */
+const TOTAL = 300;
+const FIXED = { v5: 23 };                       // 21.3 s clip + a short pause after it
+const fixedOf = (p) => { const v = p.querySelector("video"); if (!v) return null; const k = v.dataset.k; return FIXED[k] ?? null; };
+const fx = pages.map(fixedOf);
+const free = (TOTAL - fx.reduce((a, b) => a + (b || 0), 0)) / fx.filter((d) => d === null).length;
+const durs = fx.map((d) => d ?? free);
+const before = durs.map((_, i) => durs.slice(0, i).reduce((a, b) => a + b, 0));
+const bar = document.getElementById("bar"), timeEl = document.getElementById("time");
+const playB = document.getElementById("play"), playIc = document.getElementById("play-ic");
+let playing = true, touched = false, last = performance.now();
+
+function startVideo(p) {
+  const v = p.querySelector("video"); if (!v) return;
+  try { v.currentTime = 0; } catch (_) {}
+  v.muted = !touched;                            // sound only after the viewer has interacted with the page
+  if (!playing) return;
+  v.play().catch(() => { v.muted = true; v.play().catch(() => {}); });
+}
+const fmt = (s) => Math.floor(s / 60) + ":" + String(Math.floor(s % 60)).padStart(2, "0");
+function draw() {
+  const t = Math.min(before[cur] + Math.min(elapsed, durs[cur]), TOTAL);
+  bar.style.width = (t / TOTAL * 100) + "%";
+  timeEl.textContent = fmt(t) + " / " + fmt(TOTAL);
+}
+function setPlaying(on) {
+  playing = on;
+  playIc.innerHTML = `<use href="#${on ? "pause" : "playi"}"/>`;
+  playB.setAttribute("aria-label", on ? "To‘xtatish" : "Davom ettirish");
+  const v = pages[cur].querySelector("video");
+  if (on) {
+    if (cur === pages.length - 1 && elapsed >= durs[cur]) { go(0); return; }
+    if (v) { v.muted = !touched; v.play().catch(() => { v.muted = true; v.play().catch(() => {}); }); }
+  } else if (v) v.pause();
+}
+playB.addEventListener("click", () => setPlaying(!playing));
+["pointerdown", "keydown", "touchstart"].forEach((ev) => document.addEventListener(ev, () => { touched = true; }, { capture: true, passive: true }));
+
+function tick(t) {
+  const dt = Math.min((t - last) / 1000, 0.5); last = t;
+  if (playing && lb.hidden) {
+    elapsed += dt;
+    if (elapsed >= durs[cur]) {
+      if (cur < pages.length - 1) go(cur + 1);
+      else { elapsed = durs[cur]; setPlaying(false); }
+    }
+  }
+  draw();
+  requestAnimationFrame(tick);
+}
+startVideo(pages[cur]);
+requestAnimationFrame(tick);
+</script>
+
+</body>
+</html>
